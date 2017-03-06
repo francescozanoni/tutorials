@@ -2,12 +2,9 @@
 create project
 
     composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.net --no-dev
+    cd sp.example.net
 
-
-cd sp.example.net
-
-# customize .env
-.env
+customize .env
 
     APP_ENV=local
     APP_DEBUG=true
@@ -16,12 +13,15 @@ cd sp.example.net
     DB_CONNECTION=sqlite
     DB_DATABASE=/absolute/path/to/database/database.sqlite
 
-# run migration of custom users table
-touch database/database.sqlite
-rm database/migrations/2014_10_12_100000_create_password_resets_table.php
-# simplify users table (password field is useless, with SAML authentication)
+run migration of custom users table
+
+    touch database/database.sqlite
+    rm database/migrations/2014_10_12_100000_create_password_resets_table.php
+
+simplify users table (password field is useless, with SAML authentication)
+
 database/migrations/2014_10_12_000000_create_users_table.php
-public function up()
+    public function up()
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
@@ -30,7 +30,8 @@ public function up()
             $table->timestamps();
         });
     }
-php artisan migrate
+
+    php artisan migrate
 
 # install SAML dependency
 composer require aacotroneo/laravel-saml2 --update-no-dev
