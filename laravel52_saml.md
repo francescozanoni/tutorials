@@ -1,10 +1,10 @@
 
-create project
+create project:
 
     composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.net --no-dev
     cd sp.example.net
 
-customize .env
+customize .env:
 
     APP_ENV=local
     APP_DEBUG=true
@@ -13,14 +13,13 @@ customize .env
     DB_CONNECTION=sqlite
     DB_DATABASE=/absolute/path/to/database/database.sqlite
 
-run migration of custom users table
+run migration of custom users table:
 
     touch database/database.sqlite
     rm database/migrations/2014_10_12_100000_create_password_resets_table.php
 
-simplify users table (password field is useless, with SAML authentication)
+simplify users table (password field is useless, with SAML authentication) by editing file database/migrations/2014_10_12_000000_create_users_table.php:
 
-database/migrations/2014_10_12_000000_create_users_table.php
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
@@ -33,10 +32,13 @@ database/migrations/2014_10_12_000000_create_users_table.php
 
     php artisan migrate
 
-# install SAML dependency
-composer require aacotroneo/laravel-saml2 --update-no-dev
-php artisan vendor:publish
-app/config/app.php:
+install SAML dependency:
+
+    composer require aacotroneo/laravel-saml2 --update-no-dev
+    php artisan vendor:publish
+
+add its service prodider to file app/config/app.php:
+
 'providers' => [
     ...
     Aacotroneo\Saml2\Saml2ServiceProvider::class,
