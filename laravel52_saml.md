@@ -63,10 +63,10 @@
 1. add custom middleware group, to avoid issues related to VerifyCsrfToken middleeware, in file app/Http/Kernel.php (https://github.com/aacotroneo/laravel-saml2/issues/7):
 
 		 'web_for_saml' => [
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+           \App\Http\Middleware\EncryptCookies::class,
+           \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+           \Illuminate\Session\Middleware\StartSession::class,
+           \Illuminate\View\Middleware\ShareErrorsFromSession::class,
        ],
 
 1. add SAML2 login/logout event listeners in file app/Providers/EventServiceProvider.php:
