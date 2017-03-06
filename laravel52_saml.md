@@ -67,7 +67,7 @@
            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
            \Illuminate\Session\Middleware\StartSession::class,
            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-       ],
+        ],
 
 1. add SAML2 login/logout event listeners in file app/Providers/EventServiceProvider.php:
 
