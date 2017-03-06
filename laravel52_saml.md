@@ -60,9 +60,8 @@ customize SP and IdP metadata in file app/config/saml2_settings.php:
     'privateKey' => file_get_contents('/path/to/sp.example.net.pem'),
     'x509cert' => file_get_contents('/path/to/idp.example.net.crt'),
 
-# add custom middleware group
-# @see https://github.com/aacotroneo/laravel-saml2/issues/7
-app/Http/Kernel.php
+add custom middleware group, to avoid issues related to VerifyCsrfToken middleeware, in file app/Http/Kernel.php (https://github.com/aacotroneo/laravel-saml2/issues/7):
+
 		 'web_for_saml' => [
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
@@ -70,9 +69,9 @@ app/Http/Kernel.php
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         ],
 
-# SAML2 login/logout event listeners
-app/Providers/EventServiceProvider.php
-public function boot(DispatcherContract $events)
+add SAML2 login/logout event listeners in file app/Providers/EventServiceProvider.php:
+
+    public function boot(DispatcherContract $events)
     {
         parent::boot($events);
         
@@ -98,10 +97,10 @@ public function boot(DispatcherContract $events)
         });
     }
     
-# welcome view customization, to display login/logout links
-app/resources/views/welcome.blade.php
-@if (Auth::guest())
-    <a href="{{ route('saml2_login') }}">Login</a>
-@else
-    <a href="{{ route('saml2_logout') }}">Logout</a>
-@endif
+welcome view customization, to display login/logout links, in fileapp/resources/views/welcome.blade.php:
+
+    @if (Auth::guest())
+        <a href="{{ route('saml2_login') }}">Login</a>
+    @else
+        <a href="{{ route('saml2_logout') }}">Logout</a>
+    @endif
