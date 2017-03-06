@@ -1,10 +1,10 @@
 
-create project:
+1. create project:
 
     composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.net --no-dev
     cd sp.example.net
 
-customize .env:
+1. customize .env:
 
     APP_ENV=local
     APP_DEBUG=true
@@ -13,7 +13,7 @@ customize .env:
     DB_CONNECTION=sqlite
     DB_DATABASE=/absolute/path/to/database/database.sqlite
 
-run migration of custom users table:
+1. run migration of custom users table:
 
     touch database/database.sqlite
     rm database/migrations/2014_10_12_100000_create_password_resets_table.php
