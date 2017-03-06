@@ -1,15 +1,20 @@
 
-composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.net --no-dev
+create project
+
+    composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.net --no-dev
+
+
 cd sp.example.net
 
 # customize .env
 .env
-APP_ENV=local
-APP_DEBUG=true
-APP_KEY=base64:jgTzCe6Iv1eYmCM57jmpzGnBeRBHfPmsGI1MXftjCAY=
-APP_URL=http://sp.example.net
-DB_CONNECTION=sqlite
-DB_DATABASE=/absolute/path/to/database/database.sqlite
+
+    APP_ENV=local
+    APP_DEBUG=true
+    APP_KEY=base64:jgTzCe6Iv1eYmCM57jmpzGnBeRBHfPmsGI1MXftjCAY=
+    APP_URL=http://sp.example.net
+    DB_CONNECTION=sqlite
+    DB_DATABASE=/absolute/path/to/database/database.sqlite
 
 # run migration of custom users table
 touch database/database.sqlite
