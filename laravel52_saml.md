@@ -1,24 +1,24 @@
 
 1. create project:
 
-    composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.net --no-dev
-    cd sp.example.net
+        composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.net --no-dev
+        cd sp.example.net
 
 1. customize .env:
 
-    APP_ENV=local
-    APP_DEBUG=true
-    APP_KEY=base64:jgTzCe6Iv1eYmCM57jmpzGnBeRBHfPmsGI1MXftjCAY=
-    APP_URL=http://sp.example.net
-    DB_CONNECTION=sqlite
-    DB_DATABASE=/absolute/path/to/database/database.sqlite
+        APP_ENV=local
+        APP_DEBUG=true
+        APP_KEY=base64:jgTzCe6Iv1eYmCM57jmpzGnBeRBHfPmsGI1MXftjCAY=
+        APP_URL=http://sp.example.net
+        DB_CONNECTION=sqlite
+        DB_DATABASE=/absolute/path/to/database/database.sqlite
 
 1. run migration of custom users table:
 
-    touch database/database.sqlite
-    rm database/migrations/2014_10_12_100000_create_password_resets_table.php
+        touch database/database.sqlite
+        rm database/migrations/2014_10_12_100000_create_password_resets_table.php
 
-simplify users table (password field is useless, with SAML authentication) by editing file database/migrations/2014_10_12_000000_create_users_table.php:
+1. simplify users table (password field is useless, with SAML authentication) by editing file database/migrations/2014_10_12_000000_create_users_table.php:
 
     public function up()
     {
