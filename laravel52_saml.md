@@ -39,24 +39,26 @@ install SAML dependency:
 
 add its service prodider to file app/config/app.php:
 
-'providers' => [
-    ...
-    Aacotroneo\Saml2\Saml2ServiceProvider::class,
-]
+    'providers' => [
+        ...
+        Aacotroneo\Saml2\Saml2ServiceProvider::class,
+    ]
 
-#openssl req -newkey rsa:2048 -new -x509 -days 3652 -nodes -out sp.example.net.crt -keyout sp.example.net.pem
-# cp /path/to/idp.example.net.crt cert
+if ne essary, create the SSL public certificate and the related key:
 
-# add SP metadata to IdP
+    openssl req -newkey rsa:2048 -new -x509 -days 3652 -nodes -out sp.example.net.crt -keyout sp.example.net.pem
+    cp /path/to/idp.example.net.crt cert
 
-# customize SP and IdP metadata
-app/config/saml2_settings.php
-$idp_host = 'http://idp.example.net/simplesaml';
-'routesMiddleware' => ['web_for_saml'],
-'simplesaml.nameidattribute' => 'mail',
-'x509cert' => file_get_contents('/path/to/sp.example.net.crt'),
-'privateKey' => file_get_contents('/path/to/sp.example.net.pem'),
-'x509cert' => file_get_contents('/path/to/idp.example.net.crt'),
+add SP metadata to IdP
+
+customize SP and IdP metadata in file app/config/saml2_settings.php:
+
+    $idp_host = 'http://idp.example.net/simplesaml';
+    'routesMiddleware' => ['web_for_saml'],
+    'simplesaml.nameidattribute' => 'mail',
+    'x509cert' => file_get_contents('/path/to/sp.example.net.crt'),
+    'privateKey' => file_get_contents('/path/to/sp.example.net.pem'),
+    'x509cert' => file_get_contents('/path/to/idp.example.net.crt'),
 
 # add custom middleware group
 # @see https://github.com/aacotroneo/laravel-saml2/issues/7
