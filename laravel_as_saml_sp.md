@@ -1,3 +1,4 @@
+**Laravel as SAML service provider**
 
 1. create project:
 
@@ -54,14 +55,23 @@
     ]
     ```
 
-1. if necessary, create the SSL public certificate and the related key:
+1. if necessary, create the SSL public certificate and related key:
 
     ```bash
     openssl req -newkey rsa:2048 -new -x509 -days 3652 -nodes -out sp.example.net.crt -keyout sp.example.net.pem
     cp /path/to/idp.example.net.crt cert
     ```
 
-1. add SP metadata to IdP
+1. add custom middleware group, to avoid issues related to VerifyCsrfToken middleware, in file *app/Http/Kernel.php* (as suggested [by SAML library's author](https://github.com/aacotroneo/laravel-saml2/issues/7)):
+
+    ```php
+    'web_for_saml' => [
+        \App\Http\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+    ],
+    ```
 
 1. customize SP and IdP metadata in file *app/config/saml2_settings.php*:
 
@@ -74,18 +84,9 @@
     'x509cert' => file_get_contents('/path/to/idp.example.net.crt'),
     ```
 
-1. add custom middleware group, to avoid issues related to VerifyCsrfToken middleeware, in file *app/Http/Kernel.php* (as suggested [by SAML library's author](https://github.com/aacotroneo/laravel-saml2/issues/7)):
+1. add SP metadata to IdP
 
-    ```php
-    'web_for_saml' => [
-        \App\Http\Middleware\EncryptCookies::class,
-        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-        \Illuminate\Session\Middleware\StartSession::class,
-        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-    ],
-    ```
-
-1. add SAML2 login/logout event listeners in file *app/Providers/EventServiceProvider.php*:
+1. add SAML login/logout event listeners in file *app/Providers/EventServiceProvider.php*:
 
     ```php
     public function boot(DispatcherContract $events)
@@ -105,7 +106,7 @@
                  }
                  Auth::login($laravelUser);
              }
-	);
+        );
 
         $events->listen(
             'Aacotroneo\Saml2\Events\Saml2LogoutEvent',
@@ -114,8 +115,10 @@
                  Session::save();
              }
         );
+	
     }
     ```
+    N.B.: as this is just a basic example, event listeners are hard-coded in file *app/Providers/EventServiceProvider.php*, but the most suitable solution would move this code into two classes under directory *app/Listeners*
     
 1. customize welcome view, to display login/logout links, in file *app/resources/views/welcome.blade.php*:
 
