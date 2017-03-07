@@ -1,4 +1,4 @@
-***Laravel as SAML service provider***
+#Laravel as SAML service provider
 
 1. create project:
 
