@@ -1,4 +1,4 @@
-**Laravel as SAML service provider**
+***Laravel as SAML service provider***
 
 1. create project:
 
@@ -58,11 +58,14 @@
     ]
     ```
 
-1. if necessary, create the SSL public certificate and related key:
+1. create the SSL public certificate and related key, if not already available, and store them together with IdP's public certificate (e.g. idp.example.net.crt):
 
     ```bash
-    openssl req -newkey rsa:2048 -new -x509 -days 3652 -nodes -out sp.example.net.crt -keyout sp.example.net.pem
-    cp /path/to/idp.example.net.crt cert
+    cd /path/to/certificate_folder
+    openssl req -newkey rsa:2048 -new -x509 -days 3652 -nodes \
+        -out /path/to/certificate_folde/sp.example.net.crt \
+	-keyout /path/to/certificate_folde/sp.example.net.pem
+    cp /path/to/idp.example.net.crt /path/to/certificate_folder
     ```
 
 1. add custom middleware group, to avoid issues related to VerifyCsrfToken middleware, in file *app/Http/Kernel.php* (as suggested [by SAML library's author](https://github.com/aacotroneo/laravel-saml2/issues/7)):
@@ -82,9 +85,9 @@
     $idp_host = 'http://idp.example.net/simplesaml';
     'routesMiddleware' => ['web_for_saml'],
     'simplesaml.nameidattribute' => 'mail',
-    'x509cert' => file_get_contents('/path/to/sp.example.net.crt'),
-    'privateKey' => file_get_contents('/path/to/sp.example.net.pem'),
-    'x509cert' => file_get_contents('/path/to/idp.example.net.crt'),
+    'x509cert' => file_get_contents('/path/to/certificate_folder/sp.example.net.crt'),
+    'privateKey' => file_get_contents('/path/to/certificate_folder/sp.example.net.pem'),
+    'x509cert' => file_get_contents('/path/to/certificate_folder/idp.example.net.crt'),
     ```
 
 1. add SP metadata to IdP
