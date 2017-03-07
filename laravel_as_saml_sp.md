@@ -5,6 +5,8 @@ Some terms:
 * IdP (Identity Provider): application providing authentication/authorization service
 * SP (Service Provider): application that uses an IdP's authentication/authorization service
 
+### Installation
+
 1. create project (for the scope of this tutorial, development dependencies are not required):
 
     ```bash
@@ -38,7 +40,7 @@ Some terms:
     }
     ```
 
-1. since users are managed by the IdP, password reset table migratiin can be removed:
+1. since users are managed by the IdP, password reset table migration can be removed:
 
     ```bash
     rm database/migrations/2014_10_12_100000_create_password_resets_table.php
@@ -69,7 +71,6 @@ Some terms:
 1. create the SSL public certificate and related key, if not already available, and store them together with IdP's public certificate (e.g. idp.example.net.crt):
 
     ```bash
-    cd /path/to/certificate_folder
     openssl req -newkey rsa:2048 -new -x509 -days 3652 -nodes \
         -out /path/to/certificate_folder/sp.example.net.crt \
         -keyout /path/to/certificate_folder/sp.example.net.pem
@@ -98,7 +99,7 @@ Some terms:
     'x509cert' => file_get_contents('/path/to/certificate_folder/idp.example.net.crt'),
     ```
 
-1. add SP metadata to IdP: SP metadata in XML format are available at URL http://sp.example.net/saml2/metadata
+1. add SP metadata to IdP; SP metadata in XML format are available at URL *http://sp.example.net/saml2/metadata*:
 
     ```xml
 <?xml version="1.0"?>
@@ -132,7 +133,7 @@ Some terms:
 
     ```
 
-1. in order to bind local authentication session to remote authentication session, add SAML login/logout event listeners in file *app/Providers/EventServiceProvider.php*:
+1. in order to bind local authentication session to remote authentication session, add SAML login/logout event listeners into file *app/Providers/EventServiceProvider.php*:
 
     ```php
     public function boot(DispatcherContract $events)
@@ -164,7 +165,7 @@ Some terms:
 	
     }
     ```
-    N.B.: for the scope of this tutorial, event listeners are hard-coded in file *app/Providers/EventServiceProvider.php*, but the most suitable solution would move this code into two classes under directory *app/Listeners*
+    N.B.: for the scope of this tutorial, event listeners are hard-coded in file *app/Providers/EventServiceProvider.php*, but the most suitable solution would consist of two classes under directory *app/Listeners*
     
 1. customize welcome view, to display login/logout links, in file *app/resources/views/welcome.blade.php*:
 
