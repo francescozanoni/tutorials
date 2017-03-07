@@ -7,7 +7,7 @@
     cd sp.example.net
     ```
 
-1. customize *.env*:
+1. customize *.env* and create empty database file:
 
         APP_ENV=local
         APP_DEBUG=true
@@ -15,14 +15,11 @@
         APP_URL=http://sp.example.net
         DB_CONNECTION=sqlite
 
-1. run migration of custom users table:
-
     ```bash
     touch database/database.sqlite
-    rm database/migrations/2014_10_12_100000_create_password_resets_table.php
     ```
 
-1. simplify users table (password field is useless, with SAML authentication) by editing file *database/migrations/2014_10_12_000000_create_users_table.php*:
+1. simplify users table migration (password field is useless, with SAML authentication) by editing file *database/migrations/2014_10_12_000000_create_users_table.php* and by removing password reset table:
 
     ```php
     public function up()
@@ -35,6 +32,12 @@
         });
     }
     ```
+    ```bash
+    rm database/migrations/2014_10_12_100000_create_password_resets_table.php
+    ```
+
+1. run migration of custom users table:
+
     ```bash
     php artisan migrate
     ```
