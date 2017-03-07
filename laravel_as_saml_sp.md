@@ -1,25 +1,25 @@
 #Laravel as SAML service provider
 
-1. create project:
+1. create project (for the scope of this tutorial, development dependencies are not required):
 
     ```bash
     composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.net --no-dev
-    cd sp.example.net
     ```
 
-1. customize *.env* and create empty database file:
+1. customize file *.env* as required (for the scope of this tutorial, only the following few parameters are required):
 
         APP_ENV=local
         APP_DEBUG=true
         APP_KEY=base64:jgTzCe6Iv1eYmCM57jmpzGnBeRBHfPmsGI1MXftjCAY=
         APP_URL=http://sp.example.net
-        DB_CONNECTION=sqlite
 
-    ```bash
-    touch database/database.sqlite
-    ```
+        DB_HOST=my.db.host
+        DB_DATABASE=my_database
+        DB_USERNAME=my_username
+        DB_PASSWORD=my_password
 
-1. simplify users table migration (password field is useless, with SAML authentication) by editing file *database/migrations/2014_10_12_000000_create_users_table.php* and by removing password reset table:
+
+1. simplify users table migration (password field is useless, with SAML authentication) by editing file *database/migrations/2014_10_12_000000_create_users_table.php*:
 
     ```php
     public function up()
@@ -32,11 +32,14 @@
         });
     }
     ```
+
+1. since users are managed by the IdP, password reset table migratiin can be removed:
+
     ```bash
     rm database/migrations/2014_10_12_100000_create_password_resets_table.php
     ```
 
-1. run migration of custom users table:
+1. run migration of customized users table:
 
     ```bash
     php artisan migrate
@@ -90,9 +93,9 @@
     'x509cert' => file_get_contents('/path/to/certificate_folder/idp.example.net.crt'),
     ```
 
-1. add SP metadata to IdP
+1. add SP metadata to IdP: SP metadata in XML format are available at URL *http://sp.example.bet/saml2/metadata*
 
-1. add SAML login/logout event listeners in file *app/Providers/EventServiceProvider.php*:
+1. in order to bind local authentication session to remote authentication session, add SAML login/logout event listeners in file *app/Providers/EventServiceProvider.php*:
 
     ```php
     public function boot(DispatcherContract $events)
@@ -124,7 +127,7 @@
 	
     }
     ```
-    N.B.: as this is just a basic example, event listeners are hard-coded in file *app/Providers/EventServiceProvider.php*, but the most suitable solution would move this code into two classes under directory *app/Listeners*
+    N.B.: for the scope of this tutorial, event listeners are hard-coded in file *app/Providers/EventServiceProvider.php*, but the most suitable solution would move this code into two classes under directory *app/Listeners*
     
 1. customize welcome view, to display login/logout links, in file *app/resources/views/welcome.blade.php*:
 
