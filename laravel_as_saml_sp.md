@@ -1,5 +1,10 @@
 #Laravel as SAML service provider
 
+Some terms:
+
+* IdP (Identity Provider): application providing authentication/authorization service
+* SP (Service Provider): application that uses an IdP's authentication/authorization service
+
 1. create project (for the scope of this tutorial, development dependencies are not required):
 
     ```bash
@@ -66,8 +71,8 @@
     ```bash
     cd /path/to/certificate_folder
     openssl req -newkey rsa:2048 -new -x509 -days 3652 -nodes \
-        -out /path/to/certificate_folde/sp.example.net.crt \
-	-keyout /path/to/certificate_folde/sp.example.net.pem
+        -out /path/to/certificate_folder/sp.example.net.crt \
+        -keyout /path/to/certificate_folder/sp.example.net.pem
     cp /path/to/idp.example.net.crt /path/to/certificate_folder
     ```
 
@@ -138,3 +143,8 @@
         <a href="{{ route('saml2_logout') }}">Logout</a>
     @endif
     ```
+
+### References
+
+* https://github.com/aacotroneo/laravel-saml2
+* https://github.com/aacotroneo/laravel-saml2/issues/7
