@@ -24,15 +24,15 @@
 1. simplify users table (password field is useless, with SAML authentication) by editing file *database/migrations/2014_10_12_000000_create_users_table.php*:
 
     ```php
-        public function up()
-        {
-            Schema::create('users', function (Blueprint $table) {
-                $table->increments('id');
-                $table->string('email')->unique();
-                $table->rememberToken();
-                $table->timestamps();
-            });
-        }
+    public function up()
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('email')->unique();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+    }
     ```
     ```bash
     php artisan migrate
@@ -76,44 +76,53 @@
 
 1. add custom middleware group, to avoid issues related to VerifyCsrfToken middleeware, in file *app/Http/Kernel.php* (as suggested [by SAML library's author](https://github.com/aacotroneo/laravel-saml2/issues/7)):
 
-        'web_for_saml' => [
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        ],
+    ```php
+    'web_for_saml' => [
+        \App\Http\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+    ],
+    ```
 
 1. add SAML2 login/logout event listeners in file *app/Providers/EventServiceProvider.php*:
 
-        public function boot(DispatcherContract $events)
-            {
-            parent::boot($events);
-		      $events->listen(
-			'Aacotroneo\Saml2\Events\Saml2LoginEvent',
-			function (Saml2LoginEvent $event) {
-            $user = $event->getSaml2User();
-             $laravelUser = User::where('email', $user->getUserId())->first();
-             if (empty($laravelUser)) {
-             		$laravelUser = User::create([
-             			'email' => $user->getUserId(),
-             		]);
-             	}
-             Auth::login($laravelUser);
-        });
+    ```php
+    public function boot(DispatcherContract $events)
+    {
 
+        parent::boot($events);
 
         $events->listen(
-        	'Aacotroneo\Saml2\Events\Saml2LogoutEvent',
-        	function ($event) {
-            Auth::logout();
-            Session::save();
-        });
-        }
-    
-1. welcome view customization, to display login/logout links, in file *app/resources/views/welcome.blade.php*:
+            'Aacotroneo\Saml2\Events\Saml2LoginEvent',
+             function (Saml2LoginEvent $event) {
+                 $user = $event->getSaml2User();
+                 $laravelUser = User::where('email', $user->getUserId())->first();
+                 if (empty($laravelUser)) {
+             	     $laravelUser = User::create([
+                         'email' => $user->getUserId(),
+                     ]);
+                 }
+                 Auth::login($laravelUser);
+             }
+	);
 
-        @if (Auth::guest())
-            <a href="{{ route('saml2_login') }}">Login</a>
-        @else
-            <a href="{{ route('saml2_logout') }}">Logout</a>
-        @endif
+        $events->listen(
+            'Aacotroneo\Saml2\Events\Saml2LogoutEvent',
+             function ($event) {
+                 Auth::logout();
+                 Session::save();
+             }
+        );
+    }
+    ```
+    
+1. customize welcome view, to display login/logout links, in file *app/resources/views/welcome.blade.php*:
+
+    ```php
+    @if (Auth::guest())
+        <a href="{{ route('saml2_login') }}">Login</a>
+    @else
+        <a href="{{ route('saml2_logout') }}">Logout</a>
+    @endif
+    ```
