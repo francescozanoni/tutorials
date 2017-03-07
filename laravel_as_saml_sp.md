@@ -98,7 +98,39 @@ Some terms:
     'x509cert' => file_get_contents('/path/to/certificate_folder/idp.example.net.crt'),
     ```
 
-1. add SP metadata to IdP: SP metadata in XML format are available at URL *http://sp.example.bet/saml2/metadata*
+1. add SP metadata to IdP: SP metadata in XML format are available at URL http://sp.example.net/saml2/metadata
+
+    ```xml
+<?xml version="1.0"?>
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2017-03-09T20:35:05Z" cacheDuration="PT604800S" entityID="http://sp.example.net/saml2/metadata">
+  <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+    <md:KeyDescriptor use="signing">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+          <ds:X509Certificate>MII[...]</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://sp.example.net/saml2/sls"/>
+    <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://sp.example.net/saml2/acs" index="1"/>
+  </md:SPSSODescriptor>
+  <md:Organization>
+    <md:OrganizationName xml:lang="en-US">Name</md:OrganizationName>
+    <md:OrganizationDisplayName xml:lang="en-US">Display Name</md:OrganizationDisplayName>
+    <md:OrganizationURL xml:lang="en-US">http://url</md:OrganizationURL>
+  </md:Organization>
+  <md:ContactPerson contactType="technical">
+    <md:GivenName>name</md:GivenName>
+    <md:EmailAddress>no@reply.com</md:EmailAddress>
+  </md:ContactPerson>
+  <md:ContactPerson contactType="support">
+    <md:GivenName>Support</md:GivenName>
+    <md:EmailAddress>no@reply.com</md:EmailAddress>
+  </md:ContactPerson>
+</md:EntityDescriptor>
+
+    ```
 
 1. in order to bind local authentication session to remote authentication session, add SAML login/logout event listeners in file *app/Providers/EventServiceProvider.php*:
 
@@ -148,3 +180,4 @@ Some terms:
 
 * https://github.com/aacotroneo/laravel-saml2
 * https://github.com/aacotroneo/laravel-saml2/issues/7
+* https://simplesamlphp.org/docs/stable/simplesamlphp-sp
