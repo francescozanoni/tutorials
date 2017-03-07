@@ -1,10 +1,10 @@
 
 1. create project:
 
-        ```bash
-        composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.net --no-dev
-        cd sp.example.net
-        ```
+    ```bash
+    composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.net --no-dev
+    cd sp.example.net
+    ```
 
 1. customize *.env*:
 
