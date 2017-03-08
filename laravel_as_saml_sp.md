@@ -5,6 +5,16 @@ Some terms:
 * IdP (Identity Provider): application providing authentication/authorization service
 * SP (Service Provider): application that uses an IdP's authentication/authorization service
 
+### 0. Preliminary operations
+
+1. create the [SSL public certificate and related key](https://en.m.wikipedia.org/wiki/Public-key_cryptography), if not already available, and store them together with IdP's public certificate (e.g. idp.example.net.crt):
+
+    ```bash
+    openssl req -newkey rsa:2048 -new -x509 -days 3652 -nodes \
+        -out /path/to/certificate_folder/sp.example.net.crt \
+        -keyout /path/to/certificate_folder/sp.example.net.pem
+    cp /path/to/idp.example.net.crt /path/to/certificate_folder
+    ```
 ### 1. Laravel application installation
 
 1. create Laravel application via [Composer](https://getcomposer.org/) (for the scope of this tutorial, development dependencies are not required):
@@ -71,15 +81,6 @@ Since Laravel cannot handle authentication without a users table, create it:
         ...
         Aacotroneo\Saml2\Saml2ServiceProvider::class,
     ]
-    ```
-
-1. create the SSL public certificate and related key, if not already available, and store them together with IdP's public certificate (e.g. idp.example.net.crt):
-
-    ```bash
-    openssl req -newkey rsa:2048 -new -x509 -days 3652 -nodes \
-        -out /path/to/certificate_folder/sp.example.net.crt \
-        -keyout /path/to/certificate_folder/sp.example.net.pem
-    cp /path/to/idp.example.net.crt /path/to/certificate_folder
     ```
 
 ### 3. SAML authentication setup inside Laravel
