@@ -1,9 +1,10 @@
-#Laravel as SAML service provider
+# Laravel as SAML service provider
 
 Some terms:
 
 * IdP (Identity Provider): application providing authentication/authorization service
 * SP (Service Provider): application that uses an IdP's authentication/authorization service
+* SAML (Security Assertion Markup Language): authentication request/response XML-based data format
 
 ### 0. Preliminary operations
 
@@ -15,6 +16,7 @@ Some terms:
         -keyout /path/to/certificate_folder/sp.example.net.pem
     cp /path/to/idp.example.net.crt /path/to/certificate_folder
     ```
+
 ### 1. Laravel application installation
 
 1. create Laravel application via [Composer](https://getcomposer.org/) (for the scope of this tutorial, development dependencies are not required):
@@ -191,6 +193,7 @@ Since Laravel cannot handle authentication without a users table, create it:
 
 ### References
 
+* https://en.m.wikipedia.org/wiki/Security_Assertion_Markup_Language
 * https://github.com/aacotroneo/laravel-saml2
 * https://github.com/aacotroneo/laravel-saml2/issues/7
 * https://simplesamlphp.org/docs/stable/simplesamlphp-sp
