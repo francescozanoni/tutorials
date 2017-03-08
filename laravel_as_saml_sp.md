@@ -193,7 +193,7 @@ Since Laravel cannot handle authentication without a users table, create it:
 
     ```
 
-1. import SP metadata to IdP (IdP usually has accessible metadata interfaces)
+1. import SP metadata to IdP: IdP's usually have easy metadata management interfaces
 
 ### References
 
