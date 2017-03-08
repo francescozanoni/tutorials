@@ -82,6 +82,8 @@ Since Laravel cannot handle authentication without a users table, create it:
     cp /path/to/idp.example.net.crt /path/to/certificate_folder
     ```
 
+### 3. SAML authentication setup inside Laravel
+
 1. add custom middleware group, to avoid issues related to VerifyCsrfToken middleware, in file *app/Http/Kernel.php* (as suggested [by SAML library's author](https://github.com/aacotroneo/laravel-saml2/issues/7)):
 
     ```php
@@ -102,40 +104,6 @@ Since Laravel cannot handle authentication without a users table, create it:
     'x509cert' => file_get_contents('/path/to/certificate_folder/sp.example.net.crt'),
     'privateKey' => file_get_contents('/path/to/certificate_folder/sp.example.net.pem'),
     'x509cert' => file_get_contents('/path/to/certificate_folder/idp.example.net.crt'),
-    ```
-
-1. add SP metadata to IdP; SP metadata in XML format are available at URL *http://sp.example.net/saml2/metadata*:
-
-    ```xml
-<?xml version="1.0"?>
-<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2017-03-09T20:35:05Z" cacheDuration="PT604800S" entityID="http://sp.example.net/saml2/metadata">
-  <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
-    <md:KeyDescriptor use="signing">
-      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
-        <ds:X509Data>
-          <ds:X509Certificate>MII[...]</ds:X509Certificate>
-        </ds:X509Data>
-      </ds:KeyInfo>
-    </md:KeyDescriptor>
-    <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://sp.example.net/saml2/sls"/>
-    <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
-    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://sp.example.net/saml2/acs" index="1"/>
-  </md:SPSSODescriptor>
-  <md:Organization>
-    <md:OrganizationName xml:lang="en-US">Name</md:OrganizationName>
-    <md:OrganizationDisplayName xml:lang="en-US">Display Name</md:OrganizationDisplayName>
-    <md:OrganizationURL xml:lang="en-US">http://url</md:OrganizationURL>
-  </md:Organization>
-  <md:ContactPerson contactType="technical">
-    <md:GivenName>name</md:GivenName>
-    <md:EmailAddress>no@reply.com</md:EmailAddress>
-  </md:ContactPerson>
-  <md:ContactPerson contactType="support">
-    <md:GivenName>Support</md:GivenName>
-    <md:EmailAddress>no@reply.com</md:EmailAddress>
-  </md:ContactPerson>
-</md:EntityDescriptor>
-
     ```
 
 1. in order to bind local authentication session to remote authentication session, add SAML login/logout event listeners into file *app/Providers/EventServiceProvider.php*:
@@ -180,6 +148,42 @@ Since Laravel cannot handle authentication without a users table, create it:
     @else
         <a href="{{ route('saml2_logout') }}">Logout</a>
     @endif
+    ```
+
+### 4. Connection to IdP finalization
+
+1. add SP metadata to IdP; SP metadata in XML format are available at URL *http://sp.example.net/saml2/metadata*:
+
+    ```xml
+<?xml version="1.0"?>
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2017-03-09T20:35:05Z" cacheDuration="PT604800S" entityID="http://sp.example.net/saml2/metadata">
+  <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+    <md:KeyDescriptor use="signing">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+          <ds:X509Certificate>MII[...]</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://sp.example.net/saml2/sls"/>
+    <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://sp.example.net/saml2/acs" index="1"/>
+  </md:SPSSODescriptor>
+  <md:Organization>
+    <md:OrganizationName xml:lang="en-US">Name</md:OrganizationName>
+    <md:OrganizationDisplayName xml:lang="en-US">Display Name</md:OrganizationDisplayName>
+    <md:OrganizationURL xml:lang="en-US">http://url</md:OrganizationURL>
+  </md:Organization>
+  <md:ContactPerson contactType="technical">
+    <md:GivenName>name</md:GivenName>
+    <md:EmailAddress>no@reply.com</md:EmailAddress>
+  </md:ContactPerson>
+  <md:ContactPerson contactType="support">
+    <md:GivenName>Support</md:GivenName>
+    <md:EmailAddress>no@reply.com</md:EmailAddress>
+  </md:ContactPerson>
+</md:EntityDescriptor>
+
     ```
 
 ### References
