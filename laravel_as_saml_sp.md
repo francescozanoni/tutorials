@@ -102,7 +102,7 @@ Since Laravel cannot handle authentication without a users table, create it:
     ];
     ```
 
-1. customize SP and IdP metadata in file *app/config/saml2_settings.php*:
+1. customize SP and IdP metadata in file *config/saml2_settings.php*:
 
     ```php
     $idp_host = 'http://idp.example.net/simplesaml';
@@ -147,7 +147,7 @@ Since Laravel cannot handle authentication without a users table, create it:
     ```
     N.B.: for the scope of this tutorial, event listeners are hard-coded in file *app/Providers/EventServiceProvider.php*, but the most suitable solution would consist of two classes under directory *app/Listeners*
     
-1. customize welcome view, in order to easily test login and logout, by adding login/logout links to file *app/resources/views/welcome.blade.php*:
+1. customize welcome view, in order to easily test login and logout, by adding login/logout links to file *resources/views/welcome.blade.php*:
 
     ```php
     @if (Auth::guest())
