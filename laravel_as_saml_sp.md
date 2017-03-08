@@ -25,32 +25,33 @@ Some terms:
         DB_USERNAME=my_username
         DB_PASSWORD=my_password
 
+1. since Laravel cannot handle authentication without a users table, create it:
 
-1. simplify users table migration (password field is useless, with SAML authentication) by editing file *database/migrations/2014_10_12_000000_create_users_table.php*:
+    1. simplify users table migration (password field is useless, with SAML authentication) by editing file *database/migrations/2014_10_12_000000_create_users_table.php*:
 
-    ```php
-    public function up()
-    {
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('email')->unique();
-            $table->rememberToken();
-            $table->timestamps();
-        });
-    }
-    ```
+        ```php
+        public function up()
+        {
+            Schema::create('users', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('email')->unique();
+                $table->rememberToken();
+                $table->timestamps();
+            });
+        }
+        ```
 
-1. since users are managed by the IdP, password reset table migration can be removed:
+    1. since users are managed by the IdP, password reset table migration can be removed:
 
-    ```bash
-    rm database/migrations/2014_10_12_100000_create_password_resets_table.php
-    ```
+        ```bash
+        rm database/migrations/2014_10_12_100000_create_password_resets_table.php
+        ```
 
-1. run migration of customized users table:
+    1. run migration of customized users table:
 
-    ```bash
-    php artisan migrate
-    ```
+        ```bash
+        php artisan migrate
+        ```
 
 1. install [SAML library](https://github.com/aacotroneo/laravel-saml2):
 
