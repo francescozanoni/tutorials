@@ -7,7 +7,7 @@ Some terms:
 
 ### 1. Laravel application installation
 
-1. create project (for the scope of this tutorial, development dependencies are not required):
+1. create Laravel application via [Composer](https://getcomposer.org/) (for the scope of this tutorial, development dependencies are not required):
 
     ```bash
     composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.net --no-dev
@@ -57,7 +57,7 @@ Since Laravel cannot handle authentication without a users table, create it:
 
 ### 3. SAML library installation
 
-1. install [SAML library](https://github.com/aacotroneo/laravel-saml2):
+1. install [SAML library](https://github.com/aacotroneo/laravel-saml2) via [Composer](https://getcomposer.org/):
 
     ```bash
     composer require aacotroneo/laravel-saml2 --update-no-dev
