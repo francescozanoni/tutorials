@@ -64,7 +64,7 @@ Since Laravel cannot handle authentication without a users table, create it:
     php artisan vendor:publish
     ```
 
-1. add its service provider to file *app/config/app.php*:
+1. add its [service provider](https://laravel.com/docs/5.2/providers) to file *app/config/app.php*:
 
     ```php
     'providers' => [
@@ -120,7 +120,7 @@ Since Laravel cannot handle authentication without a users table, create it:
                  $user = $event->getSaml2User();
                  $laravelUser = User::where('email', $user->getUserId())->first();
                  if (empty($laravelUser)) {
-             	     $laravelUser = User::create([
+             	       $laravelUser = User::create([
                          'email' => $user->getUserId(),
                      ]);
                  }
@@ -140,7 +140,7 @@ Since Laravel cannot handle authentication without a users table, create it:
     ```
     N.B.: for the scope of this tutorial, event listeners are hard-coded in file *app/Providers/EventServiceProvider.php*, but the most suitable solution would consist of two classes under directory *app/Listeners*
     
-1. customize welcome view, to display login/logout links, in file *app/resources/views/welcome.blade.php*:
+1. customize welcome view, in order to easily test login and logout, by adding login/logout links to file *app/resources/views/welcome.blade.php*:
 
     ```php
     @if (Auth::guest())
@@ -152,7 +152,7 @@ Since Laravel cannot handle authentication without a users table, create it:
 
 ### 4. Connection to IdP finalization
 
-1. add SP metadata to IdP; SP metadata in XML format are available at URL *http://sp.example.net/saml2/metadata*:
+1. export SP metadata in XML format, available at URL *http://sp.example.net/saml2/metadata*, e.g.:
 
     ```xml
 <?xml version="1.0"?>
@@ -185,6 +185,8 @@ Since Laravel cannot handle authentication without a users table, create it:
 </md:EntityDescriptor>
 
     ```
+
+1. import SP metadata to IdP (IdP usually has accessible metadata interfaces)
 
 ### References
 
