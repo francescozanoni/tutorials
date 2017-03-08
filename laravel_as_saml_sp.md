@@ -5,7 +5,7 @@ Some terms:
 * IdP (Identity Provider): application providing authentication/authorization service
 * SP (Service Provider): application that uses an IdP's authentication/authorization service
 
-### Installation
+### 1. Laravel application installation
 
 1. create project (for the scope of this tutorial, development dependencies are not required):
 
@@ -25,33 +25,37 @@ Some terms:
         DB_USERNAME=my_username
         DB_PASSWORD=my_password
 
-1. since Laravel cannot handle authentication without a users table, create it:
+### 2. Users table customization
 
-    1. simplify users table migration (password field is useless, with SAML authentication) by editing file *database/migrations/2014_10_12_000000_create_users_table.php*:
+Since Laravel cannot handle authentication without a users table, create it:
 
-        ```php
-        public function up()
-        {
-            Schema::create('users', function (Blueprint $table) {
-                $table->increments('id');
-                $table->string('email')->unique();
-                $table->rememberToken();
-                $table->timestamps();
-            });
-        }
-        ```
+1. simplify users table migration (password field is useless, with SAML authentication) by editing file *database/migrations/2014_10_12_000000_create_users_table.php*:
 
-    1. since users are managed by the IdP, password reset table migration can be removed:
+    ```php
+    public function up()
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('email')->unique();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+    }
+    ```
 
-        ```bash
-        rm database/migrations/2014_10_12_100000_create_password_resets_table.php
-        ```
+1. since users are managed by the IdP, password reset table migration can be removed:
 
-    1. run migration of customized users table:
+    ```bash
+    rm database/migrations/2014_10_12_100000_create_password_resets_table.php
+    ```
 
-        ```bash
-        php artisan migrate
-        ```
+1. run migration of customized users table:
+
+    ```bash
+    php artisan migrate
+    ```
+
+### 3. SAML library installation
 
 1. install [SAML library](https://github.com/aacotroneo/laravel-saml2):
 
