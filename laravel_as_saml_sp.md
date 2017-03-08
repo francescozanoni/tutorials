@@ -76,7 +76,7 @@ Since Laravel cannot handle authentication without a users table, create it:
     php artisan vendor:publish
     ```
 
-1. add its [service provider](https://laravel.com/docs/5.2/providers) to file *app/config/app.php*:
+1. add its [service provider](https://laravel.com/docs/5.2/providers) to file *config/app.php*:
 
     ```php
     'providers' => [
@@ -90,12 +90,16 @@ Since Laravel cannot handle authentication without a users table, create it:
 1. add custom middleware group, to avoid issues related to VerifyCsrfToken middleware, in file *app/Http/Kernel.php* (as suggested [by SAML library's author](https://github.com/aacotroneo/laravel-saml2/issues/7)):
 
     ```php
-    'web_for_saml' => [
-        \App\Http\Middleware\EncryptCookies::class,
-        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-        \Illuminate\Session\Middleware\StartSession::class,
-        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-    ],
+    protected $middlewareGroups = [
+        ...
+        'web_for_saml' => [
+            \App\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        ],
+        ...
+    ];
     ```
 
 1. customize SP and IdP metadata in file *app/config/saml2_settings.php*:
