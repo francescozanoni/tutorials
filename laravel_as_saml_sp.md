@@ -1,10 +1,13 @@
-# Laravel as SAML service provider
+# SAML authentication/authorization with Laravel
+
+This tutorial describes how to implement user authentication and authorization (simply "auth" from now on) on a Laravel application via an external service. This auth paradigm is usually know as [Single sign-on](https://en.wikipedia.org/wiki/Single_sign-on) (SSO), its purpose is centralizing all auth management into a dedicated system.
+
+[Security Assertion Markup Language](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language) (SAML) auth is one of the several SSO implementations commonly used, based on an open data exchange format.
 
 Some terms:
 
-* IdP (Identity Provider): application providing authentication/authorization service
-* SP (Service Provider): application that uses an IdP's authentication/authorization service
-* SAML (Security Assertion Markup Language): authentication request/response XML-based data format
+* IdP (Identity Provider): application providing auth service
+* SP (Service Provider): application subscribed to use an IdP's auth service
 
 ### 0. Preliminary operations
 
@@ -197,7 +200,8 @@ Since Laravel cannot handle authentication without a users table, create it:
 
 ### References
 
-* https://en.m.wikipedia.org/wiki/Security_Assertion_Markup_Language
+* https://en.wikipedia.org/wiki/Single_sign-on
+* https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language
 * https://github.com/aacotroneo/laravel-saml2
 * https://github.com/aacotroneo/laravel-saml2/issues/7
 * https://simplesamlphp.org/docs/stable/simplesamlphp-sp
