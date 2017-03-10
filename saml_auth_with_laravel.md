@@ -176,7 +176,7 @@ Since Laravel cannot handle authentication without a users table, create it:
             @else
                 <a href="{{ route('saml2_logout') }}">Logout</a>
             @endif
-	    ...
+            ...
         </div>
     </body>
     ```
