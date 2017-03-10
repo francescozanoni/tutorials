@@ -9,6 +9,8 @@ Some terms:
 * IdP (Identity Provider): application providing auth service
 * SP (Service Provider): application subscribed to use an IdP's auth service
 
+Laravel 5.2 version has been chosen, since it's the first version implementing a standard middleware group by default (see [Laravel 5.2's release notes](https://laravel.com/docs/5.2/releases)).
+
 ### 0. Preliminary operations
 
 1. create the [SSL public certificate and related key](https://en.m.wikipedia.org/wiki/Public-key_cryptography), if not already available, and store them together with IdP's public certificate (e.g. idp.example.net.crt):
@@ -57,6 +59,7 @@ Since Laravel cannot handle authentication without a users table, create it:
         });
     }
     ```
+    "email" field is used as unique user identifier
 
 1. since users are managed by the IdP, password reset table migration can be removed:
 
@@ -72,7 +75,7 @@ Since Laravel cannot handle authentication without a users table, create it:
 
 ### 3. SAML library installation
 
-1. install [SAML library](https://github.com/aacotroneo/laravel-saml2) via [Composer](https://getcomposer.org/):
+1. install Alejandro Cotroneo's [SAML library](https://github.com/aacotroneo/laravel-saml2) via [Composer](https://getcomposer.org/) and publish its configurations to file *config/saml2_settings.php*:
 
     ```bash
     composer require aacotroneo/laravel-saml2 --update-no-dev
@@ -109,26 +112,27 @@ Since Laravel cannot handle authentication without a users table, create it:
 
     ```php
     $idp_host = 'http://idp.example.net/simplesaml';
+    
     return $settings = array(
         ...
         'routesMiddleware' => ['web_for_saml'],
-	...
-	'sp' => array(
-	    ...
+        ...
+        'sp' => array(
+            ...
             'simplesaml.nameidattribute' => 'email',
             'x509cert' => file_get_contents('/path/to/certificate_folder/sp.example.net.crt'),
             'privateKey' => file_get_contents('/path/to/certificate_folder/sp.example.net.pem'),
-	    ...
-	),
-	'idp' => array(
-	    ...
+            ...
+        ),
+        'idp' => array(
+            ...
             'x509cert' => file_get_contents('/path/to/certificate_folder/idp.example.net.crt'),
-	),
-	...
+        ),
+        ...
     );
     ```
 
-1. in order to bind local authentication session to remote authentication session, add SAML login/logout event listeners into file *app/Providers/EventServiceProvider.php*:
+1. in order to bind local authentication session to remote authentication session, add SAML login/logout [event listeners](https://laravel.com/docs/5.2/events) into file *app/Providers/EventServiceProvider.php*:
 
     ```php
     public function boot(DispatcherContract $events)
@@ -206,6 +210,8 @@ Since Laravel cannot handle authentication without a users table, create it:
 
 * https://en.wikipedia.org/wiki/Single_sign-on
 * https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language
+* https://laravel.com/docs/5.2/releases
 * https://github.com/aacotroneo/laravel-saml2
 * https://github.com/aacotroneo/laravel-saml2/issues/7
 * https://simplesamlphp.org/docs/stable/simplesamlphp-sp
+* https://laravel.com/docs/5.2/events
