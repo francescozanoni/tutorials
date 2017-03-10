@@ -32,6 +32,8 @@ Laravel 5.2 version has been chosen, since it's the first version implementing a
 
     ```bash
     composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.com --no-dev
+    chmod -R 777 storage/*
+    chmod -R 777 bootstrap/cache
     ```
 
 1. customize file **.env** as required (for the scope of this tutorial, only the following few parameters are required):
@@ -113,9 +115,9 @@ Since Laravel cannot handle authentication without a users table, create it:
 
 ### 4. SAML authentication setup inside Laravel
 
-The "web" middleware group above automatically starts session management, functionality strictly required to perform authentication. A slightly different middleware group is required.
+The "web" middleware group above automatically starts session management, functionality strictly required to perform authentication. A slightly different middleware group is required (see below).
 
-1. add custom middleware group, to avoid issues related to VerifyCsrfToken middleware, in file **app/Http/Kernel.php** (as suggested [by SAML library's author](https://github.com/aacotroneo/laravel-saml2/issues/7)):
+1. add the following custom middleware group, to avoid issues related to VerifyCsrfToken middleware, in file **app/Http/Kernel.php** (as suggested [by SAML library's author](https://github.com/aacotroneo/laravel-saml2/issues/7)):
 
     ```php
     protected $middlewareGroups = [
