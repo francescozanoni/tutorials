@@ -11,6 +11,8 @@ Some terms:
 
 Laravel 5.2 version has been chosen, since it's the first version implementing a standard middleware group by default (see [Laravel 5.2's release notes](https://laravel.com/docs/5.2/releases)).
 
+
+
 ### 0. Preliminary operations
 
 1. create the [SSL public certificate and related key](https://en.m.wikipedia.org/wiki/Public-key_cryptography), if not already available, and store them together with IdP's public certificate (e.g. idp.example.com.crt):
@@ -21,6 +23,8 @@ Laravel 5.2 version has been chosen, since it's the first version implementing a
         -keyout /path/to/certificate_folder/sp.example.com.pem
     cp /path/to/idp.example.com.crt /path/to/certificate_folder
     ```
+
+
 
 ### 1. Laravel application installation
 
@@ -41,6 +45,8 @@ Laravel 5.2 version has been chosen, since it's the first version implementing a
         DB_DATABASE=my_database
         DB_USERNAME=my_username
         DB_PASSWORD=my_password
+
+
 
 ### 2. Users table customization
 
@@ -73,6 +79,8 @@ Since Laravel cannot handle authentication without a users table, create it:
     php artisan migrate
     ```
 
+
+
 ### 3. SAML library installation
 
 1. install Alejandro Cotroneo's [SAML library](https://github.com/aacotroneo/laravel-saml2) via [Composer](https://getcomposer.org/) and publish its configurations to file **config/saml2_settings.php**:
@@ -90,8 +98,22 @@ Since Laravel cannot handle authentication without a users table, create it:
         Aacotroneo\Saml2\Saml2ServiceProvider::class,
     ]
     ```
+    this operation sets the following list of routes:
 
-### 3. SAML authentication setup inside Laravel
+    URI            | Name          | Action                                                     | Middleware
+    ---------------|---------------|------------------------------------------------------------|-----------
+    /              |               | Closure                                                    | web
+    saml2/acs      | saml_acs      | Aacotroneo\Saml2\Http\Controllers\Saml2Controller@acs      |
+    saml2/login    | saml_login    | Aacotroneo\Saml2\Http\Controllers\Saml2Controller@login    |
+    saml2/logout   | saml_logout   | Aacotroneo\Saml2\Http\Controllers\Saml2Controller@logout   |
+    saml2/metadata | saml_metadata | Aacotroneo\Saml2\Http\Controllers\Saml2Controller@metadata |
+    saml2/sls      | saml_sls      | Aacotroneo\Saml2\Http\Controllers\Saml2Controller@sls      |
+
+
+
+### 4. SAML authentication setup inside Laravel
+
+The "web" middleware group above automatically starts session management, functionality strictly required to perform authentication. A slightly different middleware group is required.
 
 1. add custom middleware group, to avoid issues related to VerifyCsrfToken middleware, in file **app/Http/Kernel.php** (as suggested [by SAML library's author](https://github.com/aacotroneo/laravel-saml2/issues/7)):
 
@@ -131,6 +153,16 @@ Since Laravel cannot handle authentication without a users table, create it:
         ...
     );
     ```
+    this operation customizes the list of routes as follows:
+
+    URI            | Name          | Action                                                     | Middleware
+    ---------------|---------------|------------------------------------------------------------|-----------
+    /              |               | Closure                                                    | web
+    saml2/acs      | saml_acs      | Aacotroneo\Saml2\Http\Controllers\Saml2Controller@acs      | web_for_saml
+    saml2/login    | saml_login    | Aacotroneo\Saml2\Http\Controllers\Saml2Controller@login    | web_for_saml
+    saml2/logout   | saml_logout   | Aacotroneo\Saml2\Http\Controllers\Saml2Controller@logout   | web_for_saml
+    saml2/metadata | saml_metadata | Aacotroneo\Saml2\Http\Controllers\Saml2Controller@metadata | web_for_saml
+    saml2/sls      | saml_sls      | Aacotroneo\Saml2\Http\Controllers\Saml2Controller@sls      | web_for_saml
 
 1. in order to bind local authentication session to remote authentication session, add SAML login/logout [event listeners](https://laravel.com/docs/5.2/events) into file **app/Providers/EventServiceProvider.php**:
 
@@ -181,7 +213,9 @@ Since Laravel cannot handle authentication without a users table, create it:
     </body>
     ```
 
-### 4. Connection to IdP finalization
+
+
+### 5. Connection to IdP finalization
 
 1. export SP metadata in XML format, available at URL *http://sp.example.com/saml2/metadata*, e.g.:
 
