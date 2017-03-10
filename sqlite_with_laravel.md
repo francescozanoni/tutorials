@@ -30,7 +30,7 @@
     chmod 777 database/database.sqlite
     ```
 
-1. to enable foreign key checks, add the following code to file **app/Providers/AppServiceProvider.php**:
+1. to enable foreign key checks (disabled by default), add the following code to file **app/Providers/AppServiceProvider.php**:
 
     ```php
     public function boot()
@@ -44,5 +44,6 @@
 ### References
 
 * https://laravel.com/docs/5.4/database
+* https://sqlite.org/pragma.html#pragma_foreign_keys
 * http://trzebinski.info/allow-sqlite-to-use-foreign-keys-in-laravel-4/
 * http://stackoverflow.com/questions/31228950/laravel-5-1-enable-sqlite-foreign-key-constraints
