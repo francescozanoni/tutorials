@@ -43,5 +43,6 @@
 
 ### References
 
+* https://laravel.com/docs/5.4/database
 * http://trzebinski.info/allow-sqlite-to-use-foreign-keys-in-laravel-4/
 * http://stackoverflow.com/questions/31228950/laravel-5-1-enable-sqlite-foreign-key-constraints
