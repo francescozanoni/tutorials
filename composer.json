@@ -1,1 +1,13 @@
-
+{
+    "name": "francescozanoni/tutorials",
+    "description": "Tutorials not giving anything for granted",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Francesco Zanoni",
+            "email": "francescozanoni81@gmail.com"
+        }
+    ],
+    "require": {}
+}
