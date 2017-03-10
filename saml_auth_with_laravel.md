@@ -13,13 +13,13 @@ Laravel 5.2 version has been chosen, since it's the first version implementing a
 
 ### 0. Preliminary operations
 
-1. create the [SSL public certificate and related key](https://en.m.wikipedia.org/wiki/Public-key_cryptography), if not already available, and store them together with IdP's public certificate (e.g. idp.example.net.crt):
+1. create the [SSL public certificate and related key](https://en.m.wikipedia.org/wiki/Public-key_cryptography), if not already available, and store them together with IdP's public certificate (e.g. idp.example.com.crt):
 
     ```bash
     openssl req -newkey rsa:2048 -new -x509 -days 3652 -nodes \
-        -out /path/to/certificate_folder/sp.example.net.crt \
-        -keyout /path/to/certificate_folder/sp.example.net.pem
-    cp /path/to/idp.example.net.crt /path/to/certificate_folder
+        -out /path/to/certificate_folder/sp.example.com.crt \
+        -keyout /path/to/certificate_folder/sp.example.com.pem
+    cp /path/to/idp.example.com.crt /path/to/certificate_folder
     ```
 
 ### 1. Laravel application installation
@@ -27,15 +27,15 @@ Laravel 5.2 version has been chosen, since it's the first version implementing a
 1. create Laravel application via [Composer](https://getcomposer.org/) (for the scope of this tutorial, development dependencies are not required):
 
     ```bash
-    composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.net --no-dev
+    composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.com --no-dev
     ```
 
-1. customize file *.env* as required (for the scope of this tutorial, only the following few parameters are required):
+1. customize file **.env** as required (for the scope of this tutorial, only the following few parameters are required):
 
         APP_ENV=local
         APP_DEBUG=true
         APP_KEY=base64:jgTzCe6Iv1eYmCM57jmpzGnBeRBHfPmsGI1MXftjCAY=
-        APP_URL=http://sp.example.net
+        APP_URL=http://sp.example.com
 
         DB_HOST=my.db.host
         DB_DATABASE=my_database
@@ -46,7 +46,7 @@ Laravel 5.2 version has been chosen, since it's the first version implementing a
 
 Since Laravel cannot handle authentication without a users table, create it:
 
-1. simplify users table migration (password field is useless, with SAML authentication) by editing file *database/migrations/2014_10_12_000000_create_users_table.php*:
+1. simplify users table migration (password field is useless, with SAML authentication) by editing file **database/migrations/2014_10_12_000000_create_users_table.php**:
 
     ```php
     public function up()
@@ -75,14 +75,14 @@ Since Laravel cannot handle authentication without a users table, create it:
 
 ### 3. SAML library installation
 
-1. install Alejandro Cotroneo's [SAML library](https://github.com/aacotroneo/laravel-saml2) via [Composer](https://getcomposer.org/) and publish its configurations to file *config/saml2_settings.php*:
+1. install Alejandro Cotroneo's [SAML library](https://github.com/aacotroneo/laravel-saml2) via [Composer](https://getcomposer.org/) and publish its configurations to file **config/saml2_settings.php**:
 
     ```bash
     composer require aacotroneo/laravel-saml2 --update-no-dev
     php artisan vendor:publish
     ```
 
-1. add its [service provider](https://laravel.com/docs/5.2/providers) to file *config/app.php*:
+1. add its [service provider](https://laravel.com/docs/5.2/providers) to file **config/app.php**:
 
     ```php
     'providers' => [
@@ -93,7 +93,7 @@ Since Laravel cannot handle authentication without a users table, create it:
 
 ### 3. SAML authentication setup inside Laravel
 
-1. add custom middleware group, to avoid issues related to VerifyCsrfToken middleware, in file *app/Http/Kernel.php* (as suggested [by SAML library's author](https://github.com/aacotroneo/laravel-saml2/issues/7)):
+1. add custom middleware group, to avoid issues related to VerifyCsrfToken middleware, in file **app/Http/Kernel.php** (as suggested [by SAML library's author](https://github.com/aacotroneo/laravel-saml2/issues/7)):
 
     ```php
     protected $middlewareGroups = [
@@ -108,10 +108,10 @@ Since Laravel cannot handle authentication without a users table, create it:
     ];
     ```
 
-1. customize SP and IdP metadata in file *config/saml2_settings.php*:
+1. customize SP and IdP metadata in file **config/saml2_settings.php**:
 
     ```php
-    $idp_host = 'http://idp.example.net/simplesaml';
+    $idp_host = 'http://idp.example.com/simplesaml';
     
     return $settings = array(
         ...
@@ -120,19 +120,19 @@ Since Laravel cannot handle authentication without a users table, create it:
         'sp' => array(
             ...
             'simplesaml.nameidattribute' => 'email',
-            'x509cert' => file_get_contents('/path/to/certificate_folder/sp.example.net.crt'),
-            'privateKey' => file_get_contents('/path/to/certificate_folder/sp.example.net.pem'),
+            'x509cert' => file_get_contents('/path/to/certificate_folder/sp.example.com.crt'),
+            'privateKey' => file_get_contents('/path/to/certificate_folder/sp.example.com.pem'),
             ...
         ),
         'idp' => array(
             ...
-            'x509cert' => file_get_contents('/path/to/certificate_folder/idp.example.net.crt'),
+            'x509cert' => file_get_contents('/path/to/certificate_folder/idp.example.com.crt'),
         ),
         ...
     );
     ```
 
-1. in order to bind local authentication session to remote authentication session, add SAML login/logout [event listeners](https://laravel.com/docs/5.2/events) into file *app/Providers/EventServiceProvider.php*:
+1. in order to bind local authentication session to remote authentication session, add SAML login/logout [event listeners](https://laravel.com/docs/5.2/events) into file **app/Providers/EventServiceProvider.php**:
 
     ```php
     public function boot(DispatcherContract $events)
@@ -164,9 +164,9 @@ Since Laravel cannot handle authentication without a users table, create it:
 	
     }
     ```
-    N.B.: for the scope of this tutorial, event listeners are hard-coded in file *app/Providers/EventServiceProvider.php*, but the most suitable solution would consist of two classes under directory *app/Listeners*
+    N.B.: for the scope of this tutorial, event listeners are hard-coded in file **app/Providers/EventServiceProvider.php**, but the most suitable solution would consist of two classes under directory **app/Listeners**
     
-1. customize welcome view, in order to easily test login and logout, by adding login/logout links to file *resources/views/welcome.blade.php*:
+1. customize welcome view, in order to easily test login and logout, by adding login/logout links to file **resources/views/welcome.blade.php**:
 
     ```php
     <body>
@@ -183,11 +183,11 @@ Since Laravel cannot handle authentication without a users table, create it:
 
 ### 4. Connection to IdP finalization
 
-1. export SP metadata in XML format, available at URL *http://sp.example.net/saml2/metadata*, e.g.:
+1. export SP metadata in XML format, available at URL *http://sp.example.com/saml2/metadata*, e.g.:
 
     ```xml
 <?xml version="1.0"?>
-<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2017-03-09T20:35:05Z" cacheDuration="PT604800S" entityID="http://sp.example.net/saml2/metadata">
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2017-03-09T20:35:05Z" cacheDuration="PT604800S" entityID="http://sp.example.com/saml2/metadata">
   <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
     <md:KeyDescriptor use="signing">
       <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
@@ -196,9 +196,9 @@ Since Laravel cannot handle authentication without a users table, create it:
         </ds:X509Data>
       </ds:KeyInfo>
     </md:KeyDescriptor>
-    <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://sp.example.net/saml2/sls"/>
+    <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://sp.example.com/saml2/sls"/>
     <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
-    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://sp.example.net/saml2/acs" index="1"/>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://sp.example.com/saml2/acs" index="1"/>
   </md:SPSSODescriptor>
   ...
 </md:EntityDescriptor>
