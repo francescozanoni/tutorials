@@ -109,11 +109,23 @@ Since Laravel cannot handle authentication without a users table, create it:
 
     ```php
     $idp_host = 'http://idp.example.net/simplesaml';
-    'routesMiddleware' => ['web_for_saml'],
-    'simplesaml.nameidattribute' => 'mail',
-    'x509cert' => file_get_contents('/path/to/certificate_folder/sp.example.net.crt'),
-    'privateKey' => file_get_contents('/path/to/certificate_folder/sp.example.net.pem'),
-    'x509cert' => file_get_contents('/path/to/certificate_folder/idp.example.net.crt'),
+    return $settings = array(
+        ...
+        'routesMiddleware' => ['web_for_saml'],
+	...
+	'sp' => array(
+	    ...
+            'simplesaml.nameidattribute' => 'email',
+            'x509cert' => file_get_contents('/path/to/certificate_folder/sp.example.net.crt'),
+            'privateKey' => file_get_contents('/path/to/certificate_folder/sp.example.net.pem'),
+	    ...
+	),
+	'idp' => array(
+	    ...
+            'x509cert' => file_get_contents('/path/to/certificate_folder/idp.example.net.crt'),
+	),
+	...
+    );
     ```
 
 1. in order to bind local authentication session to remote authentication session, add SAML login/logout event listeners into file *app/Providers/EventServiceProvider.php*:
@@ -153,11 +165,16 @@ Since Laravel cannot handle authentication without a users table, create it:
 1. customize welcome view, in order to easily test login and logout, by adding login/logout links to file *resources/views/welcome.blade.php*:
 
     ```php
-    @if (Auth::guest())
-        <a href="{{ route('saml2_login') }}">Login</a>
-    @else
-        <a href="{{ route('saml2_logout') }}">Logout</a>
-    @endif
+    <body>
+        <div class="container">
+            @if (Auth::guest())
+                <a href="{{ route('saml2_login') }}">Login</a>
+            @else
+                <a href="{{ route('saml2_logout') }}">Logout</a>
+            @endif
+	    ...
+        </div>
+    </body>
     ```
 
 ### 4. Connection to IdP finalization
@@ -171,7 +188,7 @@ Since Laravel cannot handle authentication without a users table, create it:
     <md:KeyDescriptor use="signing">
       <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
         <ds:X509Data>
-          <ds:X509Certificate>MII[...]</ds:X509Certificate>
+          <ds:X509Certificate>...</ds:X509Certificate>
         </ds:X509Data>
       </ds:KeyInfo>
     </md:KeyDescriptor>
@@ -179,21 +196,8 @@ Since Laravel cannot handle authentication without a users table, create it:
     <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
     <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://sp.example.net/saml2/acs" index="1"/>
   </md:SPSSODescriptor>
-  <md:Organization>
-    <md:OrganizationName xml:lang="en-US">Name</md:OrganizationName>
-    <md:OrganizationDisplayName xml:lang="en-US">Display Name</md:OrganizationDisplayName>
-    <md:OrganizationURL xml:lang="en-US">http://url</md:OrganizationURL>
-  </md:Organization>
-  <md:ContactPerson contactType="technical">
-    <md:GivenName>name</md:GivenName>
-    <md:EmailAddress>no@reply.com</md:EmailAddress>
-  </md:ContactPerson>
-  <md:ContactPerson contactType="support">
-    <md:GivenName>Support</md:GivenName>
-    <md:EmailAddress>no@reply.com</md:EmailAddress>
-  </md:ContactPerson>
+  ...
 </md:EntityDescriptor>
-
     ```
 
 1. import SP metadata to IdP: IdP's usually have easy metadata management interfaces
