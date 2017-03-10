@@ -40,6 +40,29 @@
         }
     }
     ```
+1. as a database write test, run database migrations:
+
+    ```bash
+    php artisan migrate
+    ```
+
+1. and, via SQLite command line, check the database content:
+
+    ```bash
+    sqlite3 database/database.sqlite
+
+    SQLite version 3.8.2 2013-12-06 14:53:30
+    Enter ".help" for instructions
+    Enter SQL statements terminated with a ";"
+
+    sqlite> .header ON
+
+    sqlite> select * from migrations;
+    migration|batch
+    2014_10_12_000000_create_users_table|1
+
+    sqlite> .exit
+    ```
 
 ### References
 
