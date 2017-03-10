@@ -16,7 +16,9 @@
         APP_URL=http://example.com
 
         DB_CONNECTION=sqlite
-        DB_DATABASE=/path/to/example.com/database/database.sqlite
+        DB_DATABASE=/absolute/path/to/example.com/database/database.sqlite
+
+    DB_DATABASE parameter is actually not required, in case Laravel's default value (**database/database.sqlite**) is fine
 
 1. create the empty SQLite database file:
 
@@ -57,7 +59,7 @@
 
     sqlite> .header ON
 
-    sqlite> select * from migrations;
+    sqlite> SELECT * FROM migrations;
     migration|batch
     2014_10_12_000000_create_users_table|1
 
