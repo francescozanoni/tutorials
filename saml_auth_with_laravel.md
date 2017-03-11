@@ -28,13 +28,15 @@ Laravel 5.2 version has been chosen, since it's the first version implementing a
 
 ### 1. Laravel application installation
 
-1. create Laravel application via [Composer](https://getcomposer.org/) (for the scope of this tutorial, development dependencies are not required):
+1. create Laravel application via [Composer](https://getcomposer.org/):
 
     ```bash
     composer create-project --prefer-dist laravel/laravel 5.2.* sp.example.com --no-dev
     chmod -R 777 storage/*
     chmod -R 777 bootstrap/cache
     ```
+
+    //**tutorial-scoped assumotion**: development dependencies are not required//
 
 1. customize file **.env** as required (for the scope of this tutorial, only the following few parameters are required):
 
