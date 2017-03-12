@@ -4,10 +4,10 @@
 
 * if not already available,
 
-    * create the schema to convert:
+    1. create the schema to convert:
 
         ```bash
-        $ mysql -u[username] -p
+        $ mysql -h[host] -u[username] -p
         Enter password: [password]
         Welcome to the MySQL [... and the rest of MySQL welcome message]
         
@@ -18,7 +18,7 @@
         Database changed
         ```
 
-    * together with a table:
+    1. together with a table:
 
         ```bash
         mysql> CREATE TABLE users (
@@ -29,7 +29,7 @@
         Query OK, 0 rows affected (0.12 sec)
         ```
 
-    * and populate it with a few records:
+    1. and populate it with a few records:
 
         ```bash
         mysql> INSERT INTO users (username) VALUES ('user_1');
