@@ -32,10 +32,8 @@ Query OK, 0 rows affected (0.12 sec)
         ```bash
 mysql> INSERT INTO users (username) VALUES ('user_1');
 Query OK, 1 row affected (0.05 sec)
-
 mysql> INSERT INTO users (username) VALUES ('user_2');
 Query OK, 1 row affected (0.05 sec)
-
 mysql> INSERT INTO users (username) VALUES ('user_3');
 Query OK, 1 row affected (0.05 sec)
         ```
