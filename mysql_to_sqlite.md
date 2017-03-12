@@ -46,3 +46,8 @@
         mysql> EXIT;
         ```
 
+* install one of the many AWK implementations:
+
+    ```bash
+    sudo apt install gawk
+    ```
