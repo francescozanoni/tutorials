@@ -9,19 +9,9 @@
         ```bash
 $ mysql -u[username] -p
 Enter password: [password]
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 37
-Server version: 5.5.54-0ubuntu0.14.04.1 (Ubuntu)
-Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
+Welcome to the MySQL [... and the rest of MySQL welcome message]
 mysql> CREATE SCHEMA my_database;
 Query OK, 1 row affected (0.00 sec)
-
 mysql> USE my_database;
 Database changed
         ```
