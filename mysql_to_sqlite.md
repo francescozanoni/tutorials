@@ -10,7 +10,9 @@
         $ mysql -h[host] -u[username] -p
         Enter password: [password]
         Welcome to the MySQL [... and the rest of MySQL welcome message]
+        ```
         
+        ```bash
         mysql> CREATE SCHEMA my_database;
         Query OK, 1 row affected (0.00 sec)
         
