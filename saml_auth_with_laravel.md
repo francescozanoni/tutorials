@@ -36,7 +36,7 @@ Laravel 5.2 version has been chosen, since it's the first version implementing a
     chmod -R 777 bootstrap/cache
     ```
 
-    * **tutorial-scoped assumotion**: development dependencies are not required*
+    ***tutorial-scoped assumption*** *: development dependencies are not required*
 
 1. customize file **.env** as required (for the scope of this tutorial, only the following few parameters are required):
 
