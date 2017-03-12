@@ -48,10 +48,10 @@
 
 * retrieve [mysql2sqlite](https://github.com/dumblob/mysql2sqlite) script and add its dependencies:
 
-    1. install one of the many [AWK](https://en.wikipedia.org/wiki/AWK) implementations (GNU Awk, in the below example):
+    1. install one of the many [AWK](https://en.wikipedia.org/wiki/AWK) implementations ([GNU Awk](https://www.gnu.org/software/gawk/), in the below example):
 
         ```bash
-        sudo apt install gawk
+        $ sudo apt install gawk
         ```
 
     1. download mysql2sqlite script from its GitHub repository
@@ -59,13 +59,13 @@
     1. make the script executable:
 
         ```bash
-        chmod +x mysql2sqlite.sh
+        $ chmod +x mysql2sqlite.sh
         ```
 
 ### 1. Export MySQL data to MySQL dump file
 
 ```bash
-mysqldump -h[host] -u[username] -p my_database > mysql_dump.sql --compact
+$ mysqldump -h[host] -u[username] -p my_database > mysql_dump.sql --compact
 Enter password: [password]
 ```
 
@@ -90,7 +90,7 @@ INSERT INTO `users` VALUES (1,'user_1','2017-03-12 09:18:04'),
 ### 2. Convert MySQL dump file to a SQLite dump file
 
 ```bash
-./mysql2sqlite.sh mysql_dump.sql > sqlite_dump.sql
+$ ./mysql2sqlite.sh mysql_dump.sql > sqlite_dump.sql
 ```
 
 Output file *sqlite_dump.sql* content will look like:
@@ -109,8 +109,9 @@ INSERT INTO `users` VALUES (1,'user_1','2017-03-12 09:18:04'),
                            (2,'user_2','2017-03-12 09:18:04'),
                            (3,'user_3','2017-03-12 09:18:04');
 END TRANSACTION;
-
 ```
+
+Further details about how SQLite handles data types other than TEXT, INTEGER, REAL, NUMERIC and BLOB are available on [SQLite documentation](https://www.sqlite.org/datatype3.html#type_affinity)
 
 ### 3. Import SQLite dump file to SQLite database
 
