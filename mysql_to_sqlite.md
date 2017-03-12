@@ -2,7 +2,7 @@
 
 ### 0. Preliminary operations
 
-* if not already available,
+* if not already available, create the data source:
 
     1. create the schema to convert:
 
@@ -46,8 +46,18 @@
         mysql> EXIT;
         ```
 
-* install one of the many AWK implementations:
+* retrieve (mysql2sqlite)[https://github.com/dumblob/mysql2sqlite] script and add its dependencies:
 
-    ```bash
-    sudo apt install gawk
-    ```
+    1. install one of the many [AWK](https://en.m.wikipedia.org/wiki/AWK) implementations (GNU Awk, in the below example):
+
+        ```bash
+        sudo apt install gawk
+        ```
+
+    1. download mysql2sqlite script from its GitHub repository
+
+    1. make the script executable:
+
+        ```bash
+        chmod +x mysql2sqlite
+        ```
