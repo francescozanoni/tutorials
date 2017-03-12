@@ -59,17 +59,17 @@
     1. make the script executable:
 
         ```bash
-        chmod +x mysql2sqlite
+        chmod +x mysql2sqlite.sh
         ```
 
-### 1. Export source data to MySQL dump file
+### 1. Export MySQL data to MySQL dump file
 
 ```bash
 mysqldump -h[host] -u[username] -p my_database > mysql_dump.sql --compact
 Enter password: [password]
 ```
 
-File *mysql_dump.sql* content will look like:
+Output file *mysql_dump.sql* content will look like:
 
 ```
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -82,8 +82,72 @@ CREATE TABLE `users` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-INSERT INTO `users` VALUES (1,'user_1','2017-03-12 09:18:04'),(2,'user_2','2017-03-12 09:18:04'),(3,'user_3','2017-03-12 09:18:04');
+INSERT INTO `users` VALUES (1,'user_1','2017-03-12 09:18:04'),
+                           (2,'user_2','2017-03-12 09:18:06'),
+                           (3,'user_3','2017-03-12 09:18:08');
 ```
+
+### 2. Convert MySQL dump file to a SQLite dump file
+
+```bash
+./mysql2sqlite.sh mysql_dump.sql > sqlite_dump.sql
+```
+
+Output file *sqlite_dump.sql* content will look like:
+
+```
+PRAGMA synchronous = OFF;
+PRAGMA journal_mode = MEMORY;
+BEGIN TRANSACTION;
+CREATE TABLE `users` (
+  `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `username` varchar(100) DEFAULT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (`username`)
+);
+INSERT INTO `users` VALUES (1,'user_1','2017-03-12 09:18:04'),
+                           (2,'user_2','2017-03-12 09:18:04'),
+                           (3,'user_3','2017-03-12 09:18:04');
+END TRANSACTION;
+
+```
+
+### 3. Import SQLite dump file to SQLite database
+
+```bash
+$ sqlite3 my_database.sqlite
+SQLite version 3.8.2 [... and the rest of SQLite welcome message]
+
+sqlite> .read sqlite.sql
+memory
+
+sqlite> .exit
+```
+
+### 4. Check data have correctly been imported to file *my_database.sqlite*:
+
+$ sqlite3 my_database.sqlite
+SQLite version 3.8.2 [... and the rest of SQLite welcome message]
+
+sqlite> .tables
+users
+
+sqlite> .schema users
+CREATE TABLE `users` (
+  `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `username` varchar(100) DEFAULT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (`username`)
+);
+
+sqlite> SELECT * FROM users;
+1|user_1|2017-03-12 09:18:04
+2|user_2|2017-03-12 09:18:04
+3|user_3|2017-03-12 09:18:04
+
+sqlite> .exit
+*/
+
 
 ### References
 
