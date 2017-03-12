@@ -118,14 +118,15 @@ END TRANSACTION;
 $ sqlite3 my_database.sqlite
 SQLite version 3.8.2 [... and the rest of SQLite welcome message]
 
-sqlite> .read sqlite.sql
+sqlite> .read sqlite_dump.sql
 memory
 
 sqlite> .exit
 ```
 
-### 4. Check data have correctly been imported to file *my_database.sqlite*:
+### 4. Check data have been correctly imported to SQLite
 
+```bash
 $ sqlite3 my_database.sqlite
 SQLite version 3.8.2 [... and the rest of SQLite welcome message]
 
@@ -146,10 +147,11 @@ sqlite> SELECT * FROM users;
 3|user_3|2017-03-12 09:18:04
 
 sqlite> .exit
-*/
+```
 
 
 ### References
 
 * https://github.com/dumblob/mysql2sqlite
 * https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html
+* https://www.sqlite.org/cli.html
