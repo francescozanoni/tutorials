@@ -11,11 +11,13 @@ Some terms:
 
 Laravel 5.2 version has been chosen, since it's the first version implementing a standard middleware group by default (see [Laravel 5.2's release notes](https://laravel.com/docs/5.2/releases)).
 
-***tutorial-scoped assumption*** *: the application*
+***tutorial-scoped assumption*** *:*
 
-* *is developed on a UNIX-like environment (tested on Ubuntu 14.04 64 bit)*
-* *resides inside a folder named* ***sp.example.com***
-* *is reachable on a web server at URL* ***http://sp.example.com***
+* *the application*
+
+    * *is developed on a UNIX-like environment (tested on Ubuntu 14.04 64 bit)*
+    * *resides inside a folder named* ***sp.example.com***
+    * *is reachable on a web server at URL* ***http://sp.example.com***
 * *an IdP is available and reachable at URL* ***http://idp.example.com***
 
 
