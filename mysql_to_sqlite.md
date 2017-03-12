@@ -46,9 +46,9 @@
         mysql> EXIT;
         ```
 
-* retrieve (mysql2sqlite)[https://github.com/dumblob/mysql2sqlite] script and add its dependencies:
+* retrieve [mysql2sqlite](https://github.com/dumblob/mysql2sqlite) script and add its dependencies:
 
-    1. install one of the many [AWK](https://en.m.wikipedia.org/wiki/AWK) implementations (GNU Awk, in the below example):
+    1. install one of the many [AWK](https://en.wikipedia.org/wiki/AWK) implementations (GNU Awk, in the below example):
 
         ```bash
         sudo apt install gawk
@@ -61,3 +61,7 @@
         ```bash
         chmod +x mysql2sqlite
         ```
+
+### References
+
+* https://github.com/dumblob/mysql2sqlite
