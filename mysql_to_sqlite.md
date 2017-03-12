@@ -62,6 +62,30 @@
         chmod +x mysql2sqlite
         ```
 
+### 1. Export source data to MySQL dump file
+
+```bash
+mysqldump -h[host] -u[username] -p my_database > mysql_dump.sql --compact
+Enter password: [password]
+```
+
+File *mysql_dump.sql* content will look like:
+
+```
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) DEFAULT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+INSERT INTO `users` VALUES (1,'user_1','2017-03-12 09:18:04'),(2,'user_2','2017-03-12 09:18:04'),(3,'user_3','2017-03-12 09:18:04');
+```
+
 ### References
 
 * https://github.com/dumblob/mysql2sqlite
+* https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html
