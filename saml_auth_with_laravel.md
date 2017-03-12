@@ -38,7 +38,7 @@ Laravel 5.2 version has been chosen, since it's the first version implementing a
 
     ***tutorial-scoped assumption*** *: development dependencies are not required*
 
-1. customize file **.env** as required (for the scope of this tutorial, only the following few parameters are required):
+1. customize file **.env** as required:
 
         APP_ENV=local
         APP_DEBUG=true
@@ -49,6 +49,8 @@ Laravel 5.2 version has been chosen, since it's the first version implementing a
         DB_DATABASE=my_database
         DB_USERNAME=my_username
         DB_PASSWORD=my_password
+
+        ***tutorial-scoped assumption*** *: only the above few parameters are required*
 
 
 
@@ -69,7 +71,7 @@ Since Laravel cannot handle authentication without a users table, create it:
         });
     }
     ```
-    "email" field is used as unique user identifier
+    ***tutorial-scoped assumption*** *: "email" field is used as unique user identifier*
 
 1. since users are managed by the IdP, password reset table migration can be removed:
 
@@ -200,7 +202,7 @@ The "web" middleware group above automatically starts session management, functi
 	
     }
     ```
-    N.B.: for the scope of this tutorial, event listeners are hard-coded in file **app/Providers/EventServiceProvider.php**, but the most suitable solution would consist of two classes under directory **app/Listeners**
+    ***tutorial-scoped assumption*** *: event listeners are hard-coded into file* ***app/Providers/EventServiceProvider.php***, *although a better solution would consist of two classes under directory* ***app/Listeners***
     
 1. customize welcome view, in order to easily test login and logout, by adding login/logout links to file **resources/views/welcome.blade.php**:
 
