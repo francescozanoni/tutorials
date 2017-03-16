@@ -56,7 +56,7 @@
         $ sudo apt install gawk
         ```
 
-    1. download mysql2sqlite script from its GitHub repository
+    1. download mysql2sqlite script from [its GitHub repository](https://github.com/dumblob/mysql2sqlite)
 
     1. make the script executable:
 
@@ -65,6 +65,8 @@
         ```
 
 ### 1. Export MySQL data to MySQL dump file
+
+Export data via MySQL client command line interface (or any MySQL client you like, of course):
 
 ```bash
 $ mysqldump -h[host] -u[username] -p my_database > mysql_dump.sql --compact
@@ -116,6 +118,8 @@ END TRANSACTION;
 Further details about how SQLite handles data types other than TEXT, INTEGER, REAL, NUMERIC and BLOB are available on [SQLite documentation](https://www.sqlite.org/datatype3.html#type_affinity)
 
 ### 3. Import SQLite dump file to SQLite database
+
+Import data via SQLite command line interface:
 
 ```bash
 $ sqlite3 my_database.sqlite
