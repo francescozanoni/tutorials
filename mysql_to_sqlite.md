@@ -1,5 +1,7 @@
 # MySQL schema conversion to SQLite
 
+This tutorial describes how to transfer a MySQL schema (both structure and data) to an SQLite database file.
+
 ### Requirements
 
 * UNIX-like operating system
