@@ -3,8 +3,10 @@
 ### Requirements
 
 * UNIX-like operating system
+* accessible MySQL server
 * MySQL command line client
 * SQLite
+* root/sudoer access (if one of the above requirements or [AWK](https://en.wikipedia.org/wiki/AWK) is unavailable)
 
 ### 0. Preliminary operations
 
