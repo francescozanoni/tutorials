@@ -1,5 +1,11 @@
 # MySQL schema conversion to SQLite
 
+### Requirements
+
+* UNIX-like operating system
+* MySQL command line client
+* SQLite
+
 ### 0. Preliminary operations
 
 * if not already available, create the data source:
