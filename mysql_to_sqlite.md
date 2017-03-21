@@ -5,10 +5,10 @@ This tutorial describes how to transfer a MySQL schema (both structure and data)
 ### Requirements
 
 * UNIX-like operating system
-* accessible MySQL server
+* accessible MySQL server, with read permission on the schema to be converted (details at [mysqldump page](https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html)
 * MySQL command line client
 * SQLite
-* root/sudoer access (if one of the above requirements or [AWK](https://en.wikipedia.org/wiki/AWK) is unavailable)
+* one of the many implementations of [AWK](https://en.wikipedia.org/wiki/AWK), e.g. [GNU Awk](https://www.gnu.org/software/gawk/)
 
 ### 0. Preliminary operations
 
@@ -58,13 +58,7 @@ This tutorial describes how to transfer a MySQL schema (both structure and data)
         mysql> EXIT;
         ```
 
-* retrieve [mysql2sqlite](https://github.com/dumblob/mysql2sqlite) script and add its dependencies:
-
-    1. install one of the many [AWK](https://en.wikipedia.org/wiki/AWK) implementations ([GNU Awk](https://www.gnu.org/software/gawk/), in the below example):
-
-        ```bash
-        $ sudo apt install gawk
-        ```
+* retrieve [mysql2sqlite](https://github.com/dumblob/mysql2sqlite) script:
 
     1. download mysql2sqlite script from [its GitHub repository](https://github.com/dumblob/mysql2sqlite)
 
