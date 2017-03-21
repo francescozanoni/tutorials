@@ -1,18 +1,18 @@
 # MySQL schema conversion to SQLite
 
-This tutorial describes how to transfer a MySQL schema (both structure and data) to an SQLite database file.
+This tutorial describes how to transfer a MySQL/MariaDB schema (both structure and data) to an SQLite database file.
 
 ### Requirements
 
 * UNIX-like operating system
-* accessible MySQL server, with read permission on the schema to be converted (details at [mysqldump page](https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html)
-* MySQL command line client
+* accessible MySQL/MariaDB server, with read permission on the schema to be converted (details at [mysqldump page](https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html))
+* MySQL/MariaDB command line client
 * SQLite
 * one of the many implementations of [AWK](https://en.wikipedia.org/wiki/AWK), e.g. [GNU Awk](https://www.gnu.org/software/gawk/)
 
 ### 0. Preliminary operations
 
-* if not already available, create the data source:
+* if not already available, create the MySQL/MariaDB data source:
 
     1. create the schema to convert:
 
@@ -70,7 +70,7 @@ This tutorial describes how to transfer a MySQL schema (both structure and data)
 
 ### 1. Export MySQL data to MySQL dump file
 
-Export data via MySQL client command line interface (or any MySQL client you like, of course):
+Export data via MySQL/MariaDB client command line interface (or any MySQL/MariaDB client you like, of course):
 
 ```bash
 $ mysqldump -h[host] -u[username] -p my_database > mysql_dump.sql --compact
@@ -95,7 +95,7 @@ INSERT INTO `users` VALUES (1,'user_1','2017-03-12 09:18:04'),
                            (3,'user_3','2017-03-12 09:18:08');
 ```
 
-### 2. Convert MySQL dump file to a SQLite dump file
+### 2. Convert MySQL/MariaDB dump file to a SQLite dump file
 
 ```bash
 $ ./mysql2sqlite.sh mysql_dump.sql > sqlite_dump.sql
@@ -165,4 +165,5 @@ sqlite> .exit
 
 * https://github.com/dumblob/mysql2sqlite
 * https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html
+* https://mariadb.com/kb/en/mariadb/mysqldump/
 * https://www.sqlite.org/cli.html
