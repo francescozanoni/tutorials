@@ -1,5 +1,17 @@
 # SQLite with Laravel
 
+This tutorial describes how to use SQLite as Laravel database engine.
+
+### Requirements
+
+* UNIX-like operating system
+* PHP (exact version depends on Laravel version)
+* PHP SQLite extension
+* [Composer](https://getcomposer.org/) dependency manager
+* SQLite (one of the several ways of accessing SQLite database file directly)
+
+### Usage
+
 1. create Laravel application via [Composer](https://getcomposer.org/) (for the scope of this tutorial, development dependencies are not required):
 
     ```bash
