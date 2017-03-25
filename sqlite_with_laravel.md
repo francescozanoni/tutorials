@@ -6,7 +6,12 @@ This tutorial describes how to use SQLite as Laravel database engine.
 
 * UNIX-like operating system
 * PHP (exact version depends on Laravel version)
-* PHP SQLite extension
+* PHP extensions:
+
+    * PDO
+    * SQLite
+    * SQLite driver of PDO
+
 * [Composer](https://getcomposer.org/) dependency manager
 * SQLite (one of the several ways of accessing SQLite database file directly)
 
