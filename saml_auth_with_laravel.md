@@ -59,7 +59,7 @@ Laravel 5.2 version has been chosen, since it's the first version implementing a
         DB_USERNAME=my_username
         DB_PASSWORD=my_password
 
-        ***tutorial-scoped assumption*** *: only the above few parameters are required*
+    ***tutorial-scoped assumption*** *: only the above few parameters are required*
 
 
 
