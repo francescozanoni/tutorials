@@ -235,7 +235,7 @@ The "web" middleware group above automatically starts session management, functi
 1. export SP metadata in XML format, available at URL *http://sp.example.com/saml2/metadata*, e.g.:
 
     ```xml
-<?xml version="1.0"?>
+    <?xml version="1.0"?>
 <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2017-03-09T20:35:05Z" cacheDuration="PT604800S" entityID="http://sp.example.com/saml2/metadata">
   <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
     <md:KeyDescriptor use="signing">
