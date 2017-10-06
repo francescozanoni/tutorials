@@ -42,21 +42,21 @@
     }
     ```
 
-To use it in your projects, include it into composer.json as follows:
+To use the repository in your projects, include it into composer.json as follows:
 
-    ```json
+```json
+{
+  "repositories": [
     {
-      "repositories": [
-        {
-          "url": "http://www.example.com",
-          "type": "composer"
-        }
-      ],
-      "require": {
-        "my/package": "1.0.0"
-      },
-      "config": {
-        "secure-http": false
-      }
+      "url": "http://www.example.com",
+      "type": "composer"
     }
-    ```
+  ],
+  "require": {
+    "my/package": "1.0.0"
+  },
+  "config": {
+    "secure-http": false
+  }
+}
+```
