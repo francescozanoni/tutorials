@@ -19,11 +19,11 @@ Sometimes a simple static Composer repository is useful, unlinked from the offic
     }
     ```
 
-1. put you package into a directory named **package-1.0.0** and compress it into file **package-1.0.0.zip**
+1. put your package into a directory named **package-1.0.0** and compress to file **package-1.0.0.zip**
 
-1. upload file package-1.0.0.zip to a web server, e.g. at URL *http://www.example.com/package-1.0.0.zip*
+1. upload file package-1.0.0.zip to a web server, e.g. at URL **http://www.example.com/package-1.0.0.zip**
 
-1. create the repository main file *packages.json*, as follows:
+1. create the repository main file **packages.json**, as follows:
 
     ```json
     {
@@ -44,7 +44,7 @@ Sometimes a simple static Composer repository is useful, unlinked from the offic
 
 1. that's it
 
-To use the repository in your projects, include it into *composer.json* as follows:
+To use the repository in your projects, include it into **composer.json** as follows:
 
 ```json
 {
