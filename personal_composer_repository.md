@@ -1,8 +1,8 @@
 # Personal Composer repository
 
-Sometimes a simple static Composer repository is useful, unlinked from the official Packagist. An example: you could host on it all your company's packages, which are not worth or allowed to be made available on platforms such as GitHub.
+Sometimes a simple static Composer repository is useful, unlinked from the official [Packagist](https://packagist.org). An example: you could host on it all your company's packages, which are not worth or allowed to be made available on platforms such as [GitHub](https://github.com).
 
-1. create your package, whose ***composer.json*** could be as follows:
+1. create your package, whose **composer.json** could be as follows:
 
     ```json
     {
@@ -19,13 +19,11 @@ Sometimes a simple static Composer repository is useful, unlinked from the offic
     }
     ```
 
-1. put you package into a directory named ***package-1.0.0***
+1. put you package into a directory named **package-1.0.0** and compress it into file **package-1.0.0.zip**
 
-1. compress the directory into file ***package-1.0.0.zip***
+1. upload file package-1.0.0.zip to a web server, e.g. at URL *http://www.example.com/package-1.0.0.zip*
 
-1. upload package-1.0.0.zip file to a web server, e.g. at URL http://www.example.com/package-1.0.0.zip
-
-1. create the repository main file packages.json, as follows:
+1. create the repository main file *packages.json*, as follows:
 
     ```json
     {
@@ -44,7 +42,9 @@ Sometimes a simple static Composer repository is useful, unlinked from the offic
     }
     ```
 
-To use the repository in your projects, include it into ***composer.json*** as follows:
+1. that's it
+
+To use the repository in your projects, include it into *composer.json* as follows:
 
 ```json
 {
@@ -63,4 +63,9 @@ To use the repository in your projects, include it into ***composer.json*** as f
 }
 ```
 
-***tutorial-scoped assumption*** *: if you understand the risk, by adding ***secure-http: false*** you can use plain HTTP *
+***tutorial-scoped assumption*** *: if you understand the risk, by adding ***secure-http: false*** you can use plain HTTP *
+
+### References
+
+* https://getcomposer.org/doc/05-repositories.md
+* https://getcomposer.org/doc/06-config.md#secure-http
