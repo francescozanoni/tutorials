@@ -2,52 +2,61 @@
 
 1. create your package, whose composer.json could be as follows:
 
-{
-    "name": "my/package",
-    "description": "My package",
-    "version": "1.0.0",
-    "type": "library",
-    "authors": [
+    ```json
+    {
+      "name": "my/package",
+      "description": "My package",
+      "version": "1.0.0",
+      "type": "library",
+      "authors": [
         {
-            "name": "Great Developer",
-            "email": "great.developer@example.com"
+          "name": "Great Developer",
+          "email": "great.developer@example.com"
         }
-    ]
-}
+      ]
+    }
+    ```
 
-2. put you package into a directory named package-1.0.0
-3. compress the directory into file package-1.0.0.zip
-4. upload package-1.0.0.zip file to a web server, e.g. at URL http://www.example.com/package-1.0.0.zip
-5. create the repository main file packages.json, as follows:
+1. put you package into a directory named package-1.0.0
 
-{
-    "packages": {
+1. compress the directory into file package-1.0.0.zip
+
+1. upload package-1.0.0.zip file to a web server, e.g. at URL http://www.example.com/package-1.0.0.zip
+
+1. create the repository main file packages.json, as follows:
+
+    ```json
+    {
+      "packages": {
         "my/package": {
-            "1.0.0": {
-                "name": "my/package",
-                "version": "1.0.0",
-                "dist": {
-                    "url": "http://www.example.com/package-1.0.0.zip",
-                    "type": "zip"
-                }
+          "1.0.0": {
+            "name": "my/package",
+            "version": "1.0.0",
+            "dist": {
+              "url": "http://www.example.com/package-1.0.0.zip",
+              "type": "zip"
             }
+          }
         }
+      }
     }
-}
+    ```
 
-To use it in your projects, include it into your projects' composer.json as follows:
+To use it in your projects, include it into composer.json as follows:
 
-{
-    "repositories": [
+    ```json
+    {
+      "repositories": [
         {
-            "url": "http://www.example.com",
-            "type": "composer"
+          "url": "http://www.example.com",
+          "type": "composer"
         }
-    ],
-    "require": {
+      ],
+      "require": {
         "my/package": "1.0.0"
-    },
-    "config": {
+      },
+      "config": {
         "secure-http": false
+      }
     }
-}
+    ```
