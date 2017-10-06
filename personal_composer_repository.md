@@ -63,7 +63,7 @@ To use the repository in your projects, include it into **composer.json** as fol
 }
 ```
 
-***tutorial-scoped assumption*** *: if you understand the risk, by adding ***secure-http: false*** you can use plain HTTP *
+***tutorial-scoped assumption*** *: if you understand the risk, ""secure-http": false" allows you to use plain HTTP*
 
 ### References
 
