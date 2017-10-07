@@ -2,7 +2,8 @@
 
 Sometimes a simple static Composer repository is useful, unlinked from the official [Packagist](https://packagist.org). An example: you could host on it all your company's packages, which are not worth or allowed to be made available on platforms such as [GitHub](https://github.com).
 
-1. create your package, whose **composer.json** could be as follows:
+### (First package and) Repository creation
+1. create your package, whose **composer.json** (shortest version) could be as follows:
 
     ```json
     {
@@ -44,6 +45,7 @@ Sometimes a simple static Composer repository is useful, unlinked from the offic
 
 1. that's it
 
+### Repository usage
 To use the repository in your projects, include it into **composer.json** as follows:
 
 ```json
