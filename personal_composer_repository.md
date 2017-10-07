@@ -2,8 +2,12 @@
 
 Sometimes a simple static Composer repository is useful, unlinked from the official [Packagist](https://packagist.org). An example: you could host on it all your company's packages, which are not worth or allowed to be made available on platforms such as [GitHub](https://github.com).
 
-### (First package and) Repository creation
-1. create your package, whose **composer.json** (shortest version) could be as follows:
+### Requirements
+
+* a web server (reachable at URL http://www.example.com, in the following example).
+
+### 0. Package creation and location
+1. if not already available, create your package, whose **composer.json** (shortest version) could be as follows:
 
     ```json
     {
@@ -20,10 +24,11 @@ Sometimes a simple static Composer repository is useful, unlinked from the offic
     }
     ```
 
-1. put your package into a directory named **package-1.0.0** and compress to file **package-1.0.0.zip**
+1. put your package into a directory named **package-1.0.0** and compress to file **package-1.0.0.zip**;
 
-1. upload file package-1.0.0.zip to a web server, e.g. at URL **http://www.example.com/package-1.0.0.zip**
+1. upload file package-1.0.0.zip to a web server, e.g. at URL **http://www.example.com/package-1.0.0.zip**;
 
+### 1. Repository creation
 1. create the repository main file **packages.json**, as follows:
 
     ```json
@@ -43,10 +48,10 @@ Sometimes a simple static Composer repository is useful, unlinked from the offic
     }
     ```
 
-1. that's it
+“url” item must of course match the package file location.
 
-### Repository usage
-To use the repository in your projects, include it into **composer.json** as follows:
+### Usage
+To use the repository, together with the hosted package, include it into your projects’ **composer.json** (shortest version) as follows:
 
 ```json
 {
