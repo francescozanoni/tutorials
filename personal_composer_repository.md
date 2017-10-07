@@ -47,8 +47,7 @@ Sometimes a simple static Composer repository is useful, unlinked from the offic
       }
     }
     ```
-
-“url” item must of course match the package file location.
+    “url” item must of course match the package file location.
 
 ### Usage
 To use the repository, together with the hosted package, include it into your projects’ **composer.json** (shortest version) as follows:
