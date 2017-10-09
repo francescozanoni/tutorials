@@ -6,8 +6,8 @@ Sometimes a simple static Composer repository is useful, unlinked from the offic
 
 * a web server (reachable at URL http://www.example.com, in the following example).
 
-### 0. Package creation and location
-1. if not already available, create your package, whose **composer.json** (shortest version) could be as follows:
+### 0. First package creation and location
+1. if not already available, create your first package, whose **composer.json** (shortest version) could be as follows:
 
     ```json
     {
@@ -29,7 +29,7 @@ Sometimes a simple static Composer repository is useful, unlinked from the offic
 1. upload file package-1.0.0.zip to a web server, e.g. at URL **http://www.example.com/package-1.0.0.zip**;
 
 ### 1. Repository creation
-1. create the repository main file **packages.json**, as follows:
+1. repository creation simply consists in compiling the repository's "index" page, whose file name must be **packages.json**, as follows:
 
     ```json
     {
@@ -74,4 +74,4 @@ To use the repository, together with the hosted package, include it into your pr
 ### References
 
 * https://getcomposer.org/doc/05-repositories.md
-* https://getcomposer.org/doc/06-config.md#secure-http
+* https://getcomposer.org/doc/06-config.md#secure-http
