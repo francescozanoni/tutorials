@@ -29,7 +29,7 @@ Sometimes a simple static Composer repository is useful, unlinked from the offic
 1. upload file package-1.0.0.zip to a web server, e.g. at URL **http://www.example.com/package-1.0.0.zip**;
 
 ### 1. Repository creation
-1. repository creation simply consists in compiling the repository's "index" page, whose file name must be **packages.json**, as follows:
+1. repository creation simply means compiling the repository's "index" page, whose file name must be **packages.json**, as follows:
 
     ```json
     {
@@ -37,7 +37,15 @@ Sometimes a simple static Composer repository is useful, unlinked from the offic
         "my/package": {
           "1.0.0": {
             "name": "my/package",
+            "description": "My package",
             "version": "1.0.0",
+            "type": "library",
+            "authors": [
+              {
+                "name": "Great Developer",
+                "email": "great.developer@example.com"
+              }
+            ],
             "dist": {
               "url": "http://www.example.com/package-1.0.0.zip",
               "type": "zip"
